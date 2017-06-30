@@ -2,22 +2,22 @@
 /**
  * Responsible for additional taxonomy meta
  **/
-if ( ! class_exists( 'UCF_Departments_Fields' ) ) {
-	class UCF_Departments_Fields {
+if ( ! class_exists( 'UCF_Employee_Types_Fields' ) ) {
+	class UCF_Employee_Types_Fields {
 		/**
-		 * Registers meta fields related to departments
+		 * Registers meta fields related to employee types
 		 * @author RJ Bruneel
 		 * @since 1.0.0
 		 **/
 		public static function register_meta_fields() {
-			add_action( 'departments_add_form_fields', array( 'UCF_Departments_Fields', 'add_fields' ), 10, 1 );
-			add_action( 'departments_edit_form_fields', array( 'UCF_Departments_Fields', 'edit_fields' ), 10, 2 );
-			add_action( 'created_departments', array( 'UCF_Departments_Fields', 'save_departments_meta' ), 10, 2 );
-			add_action( 'edited_departments', array( 'UCF_Departments_Fields', 'edited_departments_meta' ), 10, 2 );
+			add_action( 'employee_types_add_form_fields', array( 'UCF_Employee_Types_Fields', 'add_fields' ), 10, 1 );
+			add_action( 'employee_types_edit_form_fields', array( 'UCF_Employee_Types_Fields', 'edit_fields' ), 10, 2 );
+			add_action( 'created_employee_types', array( 'UCF_Employee_Types_Fields', 'save_employee_types_meta' ), 10, 2 );
+			add_action( 'edited_employee_types', array( 'UCF_Employee_Types_Fields', 'edited_employee_types_meta' ), 10, 2 );
 		}
 
 		/**
-		 * Adds meta fields for departments
+		 * Adds meta fields for employee types
 		 * @author RJ Bruneel
 		 * @since 1.0.0
 		 * @param $taxonomy WP_Taxonomy | The taxonomy object
@@ -27,17 +27,17 @@ if ( ! class_exists( 'UCF_Departments_Fields' ) ) {
 			$colleges = self::get_colleges();
 		?>
 			<div class="form-field term-group">
-				<label for="departments_alias"><?php _e( 'Department Alias', 'ucf_departments' ); ?></label>
-				<input type="text" id="departments_alias" name="departments_alias">
+				<label for="employee_types_alias"><?php _e( 'Employee Type Alias', 'ucf_employee_types' ); ?></label>
+				<input type="text" id="employee_types_alias" name="employee_types_alias">
 			</div>
 			<div class="form-field term-group">
-				<label for="departments_website"><?php _e( 'Department Website', 'ucf_departments' ); ?></label>
-				<input type="url" id="departments_website" name="departments_website">
+				<label for="employee_types_website"><?php _e( 'Employee Type Website', 'ucf_employee_types' ); ?></label>
+				<input type="url" id="employee_types_website" name="employee_types_website">
 			</div>
 			<?php if ( $colleges ) : ?>
 			<div class="form-field term-group">
-				<label for="departments_college"><?php _e( 'College', 'ucf_departments' ); ?></label>
-				<select id="departments_college" name="departments_college">
+				<label for="employee_types_college"><?php _e( 'College', 'ucf_employee_types' ); ?></label>
+				<select id="employee_types_college" name="employee_types_college">
 					<option value=""> --- Choose College --- </option>
 				<?php foreach( $colleges as $key => $value ) : ?>
 					<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -49,16 +49,16 @@ if ( ! class_exists( 'UCF_Departments_Fields' ) ) {
 		}
 
 		/**
-		 * Adds meta fields for departments in the edit screen
+		 * Adds meta fields for employee types in the edit screen
 		 * @author RJ Bruneel
 		 * @since 1.0.0
 		 * @param $term WP_Term | The term object
 		 * @param $taxonomy WP_Taxonomy | The taxonomy object
 		 **/
 		public static function edit_fields( $term, $taxonomy ) {
-			$alias = get_term_meta( $term->term_id, 'departments_alias', true );
-			$website = get_term_meta( $term->term_id, 'departments_website', true );
-			$college = intval( get_term_meta( $term->term_id, 'departments_college', true ) );
+			$alias = get_term_meta( $term->term_id, 'employee_types_alias', true );
+			$website = get_term_meta( $term->term_id, 'employee_types_website', true );
+			$college = intval( get_term_meta( $term->term_id, 'employee_types_college', true ) );
 
 			// Cast if set
 			$college = $college !== 0 ? $college : null;
@@ -67,18 +67,18 @@ if ( ! class_exists( 'UCF_Departments_Fields' ) ) {
 
 		?>
 			<tr class="form-field term-group-wrap">
-				<th scope="row"><label for="departments_alias"><?php _e( 'Department Alias', 'ucf_departments' ); ?></label></th>
-				<td><input type="text" id="departments_alias" name="departments_alias" value="<?php echo $alias; ?>"></td>
+				<th scope="row"><label for="employee_types_alias"><?php _e( 'Employee Type Alias', 'ucf_employee_types' ); ?></label></th>
+				<td><input type="text" id="employee_types_alias" name="employee_types_alias" value="<?php echo $alias; ?>"></td>
 			</tr>
 			<tr class="form-field term-group-wrap">
-				<th scope="row"><label for="departments_website"><?php _e( 'Department Website', 'ucf_departments' ); ?></label></th>
-				<td><input type="url" id="departments_website" name="departments_website" value="<?php echo $website; ?>"></td>
+				<th scope="row"><label for="employee_types_website"><?php _e( 'Employee Type Website', 'ucf_employee_types' ); ?></label></th>
+				<td><input type="url" id="employee_types_website" name="employee_types_website" value="<?php echo $website; ?>"></td>
 			</tr>
 			<?php if ( $colleges ) : ?>
 			<tr class="form-field term-group-wrap">
-				<th scope="row"><label for="departments_college"><?php _e( 'College', 'ucf_departments' ); ?></label></th>
+				<th scope="row"><label for="employee_types_college"><?php _e( 'College', 'ucf_employee_types' ); ?></label></th>
 				<td>
-					<select id="departments_college" name="departments_college">
+					<select id="employee_types_college" name="employee_types_college">
 						<option value=""> --- Choose College --- </option>
 					<?php foreach( $colleges as $key => $value ) : ?>
 						<option value="<?php echo $key; ?>"<?php echo ( $college === $key ) ? ' selected' : ''; ?>><?php echo $value; ?></option>
@@ -91,50 +91,50 @@ if ( ! class_exists( 'UCF_Departments_Fields' ) ) {
 		}
 
 		/**
-		 * Saves departments meta data
+		 * Saves employee types meta data
 		 * @author RJ Bruneel
 		 * @since 1.0.0
 		 * @param $term_id int | The term id
 		 * @param $tt_id int | The taxonomy term id
 		 **/
-		public static function save_departments_meta( $term_id, $tt_id ) {
-			if ( isset( $_POST['departments_alias'] ) && '' !== $_POST['departments_alias'] ) {
-				$alias = sanitize_text_field( $_POST['departments_alias'] );
-				add_term_meta( $term_id, 'departments_alias', $alias, true );
+		public static function save_employee_types_meta( $term_id, $tt_id ) {
+			if ( isset( $_POST['employee_types_alias'] ) && '' !== $_POST['employee_types_alias'] ) {
+				$alias = sanitize_text_field( $_POST['employee_types_alias'] );
+				add_term_meta( $term_id, 'employee_types_alias', $alias, true );
 			}
 
-			if ( isset( $_POST['departments_website'] ) && '' !== $_POST['departments_website'] ) {
-				$website = sanitize_url( $_POST['departments_website'] );
-				add_term_meta( $term_id, 'departments_website', $website, true );
+			if ( isset( $_POST['employee_types_website'] ) && '' !== $_POST['employee_types_website'] ) {
+				$website = sanitize_url( $_POST['employee_types_website'] );
+				add_term_meta( $term_id, 'employee_types_website', $website, true );
 			}
 
-			if ( isset( $_POST['departments_college'] ) && '' !== $_POST['departments_college'] ) {
-				$college_id = absint( $_POST['departments_college'] );
-				add_term_meta( $term_id, 'departments_college', $college_id, true );
+			if ( isset( $_POST['employee_types_college'] ) && '' !== $_POST['employee_types_college'] ) {
+				$college_id = absint( $_POST['employee_types_college'] );
+				add_term_meta( $term_id, 'employee_types_college', $college_id, true );
 			}
 		}
 
 		/**
-		 * Saved departments meta data on edit
+		 * Saved employee types meta data on edit
 		 * @author RJ Bruneel
 		 * @since 1.0.0
 		 * @param $term_id int | The term id
 		 * @param $tt_id int | The taxonomy term id
 		 **/
-		public static function edited_departments_meta( $term_id, $tt_id ) {
-			if ( isset( $_POST['departments_alias'] ) && '' !== $_POST['departments_alias'] ) {
-				$alias = sanitize_text_field( $_POST['departments_alias'] );
-				update_term_meta( $term_id, 'departments_alias', $alias );
+		public static function edited_employee_types_meta( $term_id, $tt_id ) {
+			if ( isset( $_POST['employee_types_alias'] ) && '' !== $_POST['employee_types_alias'] ) {
+				$alias = sanitize_text_field( $_POST['employee_types_alias'] );
+				update_term_meta( $term_id, 'employee_types_alias', $alias );
 			}
 
-			if ( isset( $_POST['departments_website'] ) && '' !== $_POST['departments_website'] ) {
-				$website = sanitize_url( $_POST['departments_website'] );
-				update_term_meta( $term_id, 'departments_website', $website );
+			if ( isset( $_POST['employee_types_website'] ) && '' !== $_POST['employee_types_website'] ) {
+				$website = sanitize_url( $_POST['employee_types_website'] );
+				update_term_meta( $term_id, 'employee_types_website', $website );
 			}
 
-			if ( isset( $_POST['departments_college'] ) && '' !== $_POST['departments_college'] ) {
-				$college_id = intval( $_POST['departments_college'] );
-				update_term_meta( $term_id, 'departments_college', $college_id );
+			if ( isset( $_POST['employee_types_college'] ) && '' !== $_POST['employee_types_college'] ) {
+				$college_id = intval( $_POST['employee_types_college'] );
+				update_term_meta( $term_id, 'employee_types_college', $college_id );
 			}
 		}
 
