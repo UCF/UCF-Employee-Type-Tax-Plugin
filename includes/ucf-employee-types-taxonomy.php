@@ -19,7 +19,7 @@ if ( ! class_exists( 'UCF_Employee_Types_Taxonomy' ) ) {
 				)
 			);
 
-			$post_types = array( 'person' );;
+			$post_types = array( 'person' );
 
 			register_taxonomy( 'employee_types', $post_types, self::args( $labels ) );
 		}
